@@ -20,7 +20,7 @@ public class LockerShelfEntity {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    private LockerShelfEntity lockerShelf;
+    private LockerEntity locker;
 
     @Column()
     private Boolean isLocked;
