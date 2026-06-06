@@ -26,8 +26,8 @@ public class CreateLockerDTO {
     List<LockerShelfSize> lockerShelfSizeList;
 
     public Locker toDomain() {
-        List<LockerShelf> domainLockerShelfList = lockerShelfSizeList.stream().map(LockerShelf::new).toList();
-        Locker domainLocker = new Locker(condominiumId, location, domainLockerShelfList);
+        List<LockerShelf> domainLockerShelfList = lockerShelfSizeList.stream().map(LockerShelf::buildForCreation).toList();
+        Locker domainLocker = new Locker(null, condominiumId, location, domainLockerShelfList);
 
         return domainLocker;
     }

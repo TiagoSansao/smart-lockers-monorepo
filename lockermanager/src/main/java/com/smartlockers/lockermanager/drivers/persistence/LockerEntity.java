@@ -7,6 +7,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name = "locker")
 @Getter
@@ -23,4 +26,7 @@ public class LockerEntity {
 
     @Column(nullable = false)
     private String location;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    List<LockerShelfEntity> lockerShelfList = new ArrayList<>();
 }
