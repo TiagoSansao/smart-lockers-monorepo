@@ -1,5 +1,6 @@
 package com.smartlockers.lockermanager.drivers.web;
 
+import com.smartlockers.lockermanager.domain.exception.BusinessException;
 import com.smartlockers.lockermanager.domain.model.Locker;
 import com.smartlockers.lockermanager.domain.ports.inbound.CreateLockerUseCase;
 import com.smartlockers.lockermanager.domain.ports.inbound.ListLockersUseCase;

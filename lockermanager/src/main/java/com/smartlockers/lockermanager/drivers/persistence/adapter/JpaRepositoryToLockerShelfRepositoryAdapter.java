@@ -8,25 +8,31 @@ import com.smartlockers.lockermanager.drivers.persistence.adaptee.JpaLockerShelf
 import com.smartlockers.lockermanager.drivers.persistence.mapper.LockerShelfEntityDomainMapper;
 import lombok.AllArgsConstructor;
 
+import java.util.Optional;
+
 @AllArgsConstructor
 public class JpaRepositoryToLockerShelfRepositoryAdapter implements LockerShelfRepository {
 
     JpaLockerShelfRepository jpaLockerShelfRepository;
 
     @Override
-    public LockerShelf findAvailableLockerShelf(Long lockerId, LockerShelfSize size) {
+    public Optional<LockerShelf> findAvailableLockerShelf(Long lockerId, LockerShelfSize size) {
         LockerShelfEntity lockerShelfEntity = jpaLockerShelfRepository.findFirstByLockerIdAndSizeAndIsLocked(lockerId, size, false);
+        if (lockerShelfEntity == null) return Optional.empty();
+
         LockerShelf domainLockerShelf = LockerShelfEntityDomainMapper.convert(lockerShelfEntity);
 
-        return domainLockerShelf;
+        return Optional.of(domainLockerShelf);
     }
 
     @Override
-    public LockerShelf findById(Long lockerShelfId) {
-        LockerShelfEntity lockerShelfEntity = jpaLockerShelfRepository.findById(lockerShelfId).get();
+    public Optional<LockerShelf> findById(Long lockerShelfId) {
+        LockerShelfEntity lockerShelfEntity = jpaLockerShelfRepository.findById(lockerShelfId).orElse(null);
+        if (lockerShelfEntity == null) return Optional.empty();
+
         LockerShelf domainLockerShelf = LockerShelfEntityDomainMapper.convert(lockerShelfEntity);
 
-        return domainLockerShelf;
+        return Optional.of(domainLockerShelf);
     }
 
     @Override

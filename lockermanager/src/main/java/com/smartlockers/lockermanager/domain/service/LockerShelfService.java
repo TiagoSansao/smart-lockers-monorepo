@@ -1,5 +1,8 @@
 package com.smartlockers.lockermanager.domain.service;
 
+import com.smartlockers.lockermanager.domain.exception.LockerShelfNotFoundException;
+import com.smartlockers.lockermanager.domain.exception.LockerShelfNotLockedException;
+import com.smartlockers.lockermanager.domain.exception.NoLockerShelfAvailableException;
 import com.smartlockers.lockermanager.domain.model.Locker;
 import com.smartlockers.lockermanager.domain.model.LockerShelf;
 import com.smartlockers.lockermanager.domain.model.LockerShelfSize;
@@ -21,7 +24,8 @@ public class LockerShelfService implements ReserveLockerShelfUseCase, UnlockLock
 
     @Override
     public Long reserveAnyAvailableLockerShelf(Long lockerId, LockerShelfSize lockerShelfSize) {
-       LockerShelf availableLockerShelf = lockerShelfRepository.findAvailableLockerShelf(lockerId, lockerShelfSize);
+       LockerShelf availableLockerShelf = lockerShelfRepository.findAvailableLockerShelf(lockerId, lockerShelfSize)
+               .orElseThrow(() -> new NoLockerShelfAvailableException("No locker shelf of the size %s available in this locker.".formatted(lockerShelfSize.toString())));
        availableLockerShelf.setLocked(true);
 
        lockerShelfRepository.update(availableLockerShelf);
@@ -31,7 +35,11 @@ public class LockerShelfService implements ReserveLockerShelfUseCase, UnlockLock
 
     @Override
     public void unlockLockerShelf(Long lockerShelfId) {
-        LockerShelf lockerShelf = lockerShelfRepository.findById(lockerShelfId);
+        LockerShelf lockerShelf = lockerShelfRepository.findById(lockerShelfId)
+                .orElseThrow(() -> new LockerShelfNotFoundException("The given lockShelf was not found."));
+
+        if (!lockerShelf.isLocked()) throw new LockerShelfNotLockedException("The given lockShelf was not locked.");
+
         lockerShelf.setLocked(false);
 
         lockerShelfRepository.update(lockerShelf);
