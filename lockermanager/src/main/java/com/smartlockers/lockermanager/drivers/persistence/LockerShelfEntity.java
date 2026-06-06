@@ -27,5 +27,5 @@ public class LockerShelfEntity {
 
     @Column()
     @Enumerated(value = EnumType.STRING)
-    LockerShelfSize size;
+    private LockerShelfSize size;
 }

@@ -1,8 +1,12 @@
 package com.smartlockers.lockermanager.domain.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+@AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @Setter
 public class LockerShelf {
@@ -16,15 +20,6 @@ public class LockerShelf {
     public static LockerShelf buildForCreation(LockerShelfSize size) {
         LockerShelf lockerShelf = new LockerShelf();
         lockerShelf.isLocked = false;
-        lockerShelf.size = size;
-
-        return lockerShelf;
-    }
-
-    public static LockerShelf buildForVisualization(Long id, boolean isLocked, LockerShelfSize size) {
-        LockerShelf lockerShelf = new LockerShelf();
-        lockerShelf.id = id;
-        lockerShelf.isLocked = isLocked;
         lockerShelf.size = size;
 
         return lockerShelf;

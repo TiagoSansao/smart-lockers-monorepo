@@ -1,13 +1,16 @@
-package com.smartlockers.lockermanager.drivers.persistence;
+package com.smartlockers.lockermanager.drivers.persistence.adapter;
 
 import com.smartlockers.lockermanager.domain.model.Locker;
 import com.smartlockers.lockermanager.domain.model.LockerShelf;
 import com.smartlockers.lockermanager.domain.ports.outbound.LockerRepository;
 
+import com.smartlockers.lockermanager.drivers.persistence.adaptee.JpaLockerRepository;
+import com.smartlockers.lockermanager.drivers.persistence.LockerEntity;
+import com.smartlockers.lockermanager.drivers.persistence.LockerShelfEntity;
+
 import lombok.AllArgsConstructor;
 
 import java.util.List;
-import java.util.concurrent.locks.Lock;
 
 @AllArgsConstructor
 public class JpaRepositoryToLockerRepositoryAdapter implements LockerRepository {
@@ -26,10 +29,8 @@ public class JpaRepositoryToLockerRepositoryAdapter implements LockerRepository 
             lockerShelfEntity.setIsLocked(lockerShelf.isLocked());
             lockerShelfEntity.setLocker(lockerEntity);
 
-            lockerEntity.lockerShelfList.add(lockerShelfEntity);
+            lockerEntity.addLockerShelf(lockerShelfEntity);
         }
-
-        lockerEntity = jpaLockerRepository.save(lockerEntity);
 
         return lockerEntity.getId();
     }
@@ -44,7 +45,7 @@ public class JpaRepositoryToLockerRepositoryAdapter implements LockerRepository 
                lockerEntity.getCondominiumId(),
                lockerEntity.getLocation(),
                lockerEntity.getLockerShelfList().stream().map((LockerShelfEntity LockerShelfEntity) -> {
-                   return LockerShelf.buildForVisualization(LockerShelfEntity.getId(), LockerShelfEntity.getIsLocked(), LockerShelfEntity.getSize());
+                   return new LockerShelf(LockerShelfEntity.getId(), LockerShelfEntity.getIsLocked(), LockerShelfEntity.getSize());
                }).toList()
            );
         }).toList();

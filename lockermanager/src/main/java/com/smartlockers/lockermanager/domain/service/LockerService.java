@@ -4,7 +4,6 @@ import com.smartlockers.lockermanager.domain.model.Locker;
 import com.smartlockers.lockermanager.domain.ports.inbound.CreateLockerUseCase;
 import com.smartlockers.lockermanager.domain.ports.inbound.ListLockersUseCase;
 import com.smartlockers.lockermanager.domain.ports.outbound.LockerRepository;
-
 import lombok.AllArgsConstructor;
 
 import java.util.List;

@@ -28,5 +28,10 @@ public class LockerEntity {
     private String location;
 
     @OneToMany(cascade = CascadeType.ALL)
-    List<LockerShelfEntity> lockerShelfList = new ArrayList<>();
+    private List<LockerShelfEntity> lockerShelfList = new ArrayList<>();
+
+    public void addLockerShelf(LockerShelfEntity lockerShelfEntity) {
+        this.lockerShelfList.add(lockerShelfEntity);
+        lockerShelfEntity.setLocker(this);
+    }
 }
