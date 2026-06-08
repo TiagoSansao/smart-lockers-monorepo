@@ -1,0 +1,6 @@
+spring:
+  application:
+    name: LockerEmbeddedSystem
+
+server:
+  port: 8084
