@@ -20,6 +20,10 @@ public class DeliveryService {
 
     private final LockerManagerClient lockerManagerClient;
 
+    public List<Delivery> list(@Nullable Long residentId, @Nullable Boolean retrieved) {
+        return deliveryRepository.findByResidentIdAndRetrieved(residentId, retrieved);
+    }
+
     public Long save(Long residentId, Long lockerId, DeliveryItemSize deliveryItemSize) {
         Long reservedLockerShelfId = lockerManagerClient.getAvailableLockerShelf(lockerId, deliveryItemSize);
 
@@ -33,6 +37,7 @@ public class DeliveryService {
         return delivery.getId();
     }
 
-    public void pickup(Long id) {
+    public void pickup(Long lockerShelfId) {
+        lockerManagerClient.unlockLockerShelf(lockerShelfId);
     }
 }

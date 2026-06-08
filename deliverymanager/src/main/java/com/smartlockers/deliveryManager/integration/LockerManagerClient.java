@@ -40,6 +40,19 @@ public class LockerManagerClient {
 
             throw new RuntimeException(e);
         }
+    }
 
+    public void unlockLockerShelf(Long lockerShelfId) {
+        String urlPath = "/lockerShelf/%s/unlock".formatted(lockerShelfId.toString());
+        try {
+            restClient.post().uri(urlPath).retrieve().toBodilessEntity();
+        } catch (HttpClientErrorException httpClientErrorException) {
+            ApiErrorResponseDTO apiErrorResponseDTO = httpClientErrorException.getResponseBodyAs(ApiErrorResponseDTO.class);
+            throw new BusinessException(apiErrorResponseDTO.message());
+        } catch (Exception e) {
+            logger.error("Unhandled exception while trying to request an available locker shelf from Locker Manager Api.");
+
+            throw new RuntimeException(e);
+        }
     }
 }

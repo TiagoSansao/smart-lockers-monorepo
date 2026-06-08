@@ -2,6 +2,7 @@ package com.smartlockers.deliveryManager.controller;
 
 import com.smartlockers.deliveryManager.controller.dto.CreateDeliveryRequestDTO;
 import com.smartlockers.deliveryManager.controller.dto.DeliveryResponseDTO;
+import com.smartlockers.deliveryManager.entity.Delivery;
 import com.smartlockers.deliveryManager.mapper.DeliveryMapper;
 import com.smartlockers.deliveryManager.service.DeliveryService;
 import jakarta.validation.Valid;
@@ -21,15 +22,14 @@ public class DeliveryController {
 
     private final DeliveryMapper deliveryMapper;
 
-//    @GetMapping()
-//    public List<DeliveryResponseDTO> list(@RequestParam(required = false) Long residentId, @RequestParam(required = false) Boolean retrieved) {
-//
-//        return deliveryMapper.toResponseList(deliveryService.list());
-//    }
+    @GetMapping()
+    public List<DeliveryResponseDTO> list(@RequestParam(required = false) Long residentId, @RequestParam(required = false) Boolean retrieved) {
+        return deliveryMapper.toResponseList(deliveryService.list(residentId, retrieved));
+    }
 
-    @PostMapping("/{id}/pickup")
-    public void pickup(@PathVariable Long id) {
-        deliveryService.pickup(id);
+    @PostMapping("/{lockerShelfId}/pickup")
+    public void pickup(@PathVariable Long lockerShelfId) {
+        deliveryService.pickup(lockerShelfId);
     }
 
     @PostMapping()
