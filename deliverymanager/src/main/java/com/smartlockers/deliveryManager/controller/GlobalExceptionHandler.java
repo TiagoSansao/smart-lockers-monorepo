@@ -1,7 +1,7 @@
 package com.smartlockers.deliveryManager.controller;
 
-import com.smartlockers.residentsmanager.controller.dto.ApiErrorResponseDTO;
-import com.smartlockers.residentsmanager.exception.BusinessException;
+import com.smartlockers.deliveryManager.exception.BusinessException;
+import com.smartlockers.deliveryManager.integration.dto.ApiErrorResponseDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;

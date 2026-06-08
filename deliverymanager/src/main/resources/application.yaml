@@ -22,6 +22,10 @@ spring:
 integration:
   lockermanager:
     baseUrl: http://localhost:8080
+  logmanager:
+    baseUrl: http://localhost:8083
+  embeddedsystemonlockermanager:
+    baseUrl: http://localhost:8084
 
 server:
   port: 8082

@@ -27,9 +27,9 @@ public class DeliveryController {
         return deliveryMapper.toResponseList(deliveryService.list(residentId, retrieved));
     }
 
-    @PostMapping("/{lockerShelfId}/pickup")
-    public void pickup(@PathVariable Long lockerShelfId) {
-        deliveryService.pickup(lockerShelfId);
+    @PostMapping("/{deliveryId}/pickup")
+    public void pickup(@PathVariable Long deliveryId) {
+        deliveryService.pickup(deliveryId);
     }
 
     @PostMapping()

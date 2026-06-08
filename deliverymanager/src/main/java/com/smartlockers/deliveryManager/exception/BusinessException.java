@@ -1,4 +1,4 @@
-package com.smartlockers.residentsmanager.exception;
+package com.smartlockers.deliveryManager.exception;
 
 public class BusinessException extends RuntimeException {
     public BusinessException(String message) {

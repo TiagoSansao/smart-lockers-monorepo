@@ -2,7 +2,9 @@ package com.smartlockers.deliveryManager.service;
 
 import com.smartlockers.deliveryManager.entity.Delivery;
 import com.smartlockers.deliveryManager.entity.DeliveryItemSize;
+import com.smartlockers.deliveryManager.exception.BusinessException;
 import com.smartlockers.deliveryManager.integration.LockerManagerClient;
+import com.smartlockers.deliveryManager.integration.LogManagerClient;
 import com.smartlockers.deliveryManager.persistence.DeliveryRepository;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
@@ -20,6 +22,8 @@ public class DeliveryService {
 
     private final DeliveryRepository deliveryRepository;
 
+
+    private final LogManagerClient logManagerClient;
     private final LockerManagerClient lockerManagerClient;
 
     public List<Delivery> list(@Nullable Long residentId, @Nullable Boolean retrieved) {
@@ -36,15 +40,19 @@ public class DeliveryService {
 
         deliveryRepository.save(delivery);
 
+        logManagerClient.registerLog("place_item", reservedLockerShelfId, null);
+
         return delivery.getId();
     }
 
-    public void pickup(Long lockerShelfId) {
-        Delivery delivery = deliveryRepository.findByLockerShelfIdAndRetrieved(lockerShelfId, false);
+    public void pickup(Long deliveryId) {
+        Delivery delivery = deliveryRepository.findById(deliveryId).orElseThrow(() -> new BusinessException("Delivery não encontrado."));
         delivery.setRetrieved(true);
 
         deliveryRepository.save(delivery);
 
-        lockerManagerClient.unlockLockerShelf(lockerShelfId);
+        logManagerClient.registerLog("retrieve_item", delivery.getLockerShelfId(), delivery.getResidentId());
+
+        lockerManagerClient.unlockLockerShelf(delivery.getLockerShelfId());
     }
 }

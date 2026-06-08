@@ -3,7 +3,7 @@ package com.smartlockers.deliveryManager.integration;
 import com.smartlockers.deliveryManager.entity.DeliveryItemSize;
 import com.smartlockers.deliveryManager.integration.dto.ApiErrorResponseDTO;
 import com.smartlockers.deliveryManager.integration.dto.ReserveLockerShelfRequestDTO;
-import com.smartlockers.residentsmanager.exception.BusinessException;
+import com.smartlockers.deliveryManager.exception.BusinessException;
 import org.jspecify.annotations.NullMarked;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
