@@ -19,4 +19,6 @@ public interface DeliveryRepository extends JpaRepository<Delivery, Long> {
             @Param("residentId") Long residentId,
             @Param("retrieved") Boolean retrieved
     );
+
+    Delivery findByLockerShelfIdAndRetrieved(Long lockerShelfId, Boolean retrieved);
 }

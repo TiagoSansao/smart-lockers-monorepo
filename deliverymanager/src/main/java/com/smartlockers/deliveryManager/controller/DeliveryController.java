@@ -36,6 +36,4 @@ public class DeliveryController {
     public Long create(@Valid @RequestBody CreateDeliveryRequestDTO createDeliveryRequestDTO) {
         return deliveryService.save(createDeliveryRequestDTO.residentId(), createDeliveryRequestDTO.lockerId(), createDeliveryRequestDTO.itemSize());
     }
-
-
 }

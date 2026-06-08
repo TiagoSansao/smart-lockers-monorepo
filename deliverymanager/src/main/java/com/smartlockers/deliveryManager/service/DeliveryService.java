@@ -4,6 +4,7 @@ import com.smartlockers.deliveryManager.entity.Delivery;
 import com.smartlockers.deliveryManager.entity.DeliveryItemSize;
 import com.smartlockers.deliveryManager.integration.LockerManagerClient;
 import com.smartlockers.deliveryManager.persistence.DeliveryRepository;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
@@ -14,6 +15,7 @@ import java.util.List;
 @Service
 @NullMarked
 @AllArgsConstructor
+@Transactional
 public class DeliveryService {
 
     private final DeliveryRepository deliveryRepository;
@@ -38,6 +40,11 @@ public class DeliveryService {
     }
 
     public void pickup(Long lockerShelfId) {
+        Delivery delivery = deliveryRepository.findByLockerShelfIdAndRetrieved(lockerShelfId, false);
+        delivery.setRetrieved(true);
+
+        deliveryRepository.save(delivery);
+
         lockerManagerClient.unlockLockerShelf(lockerShelfId);
     }
 }
