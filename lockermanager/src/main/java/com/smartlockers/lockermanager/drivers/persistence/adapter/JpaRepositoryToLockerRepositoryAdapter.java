@@ -32,6 +32,8 @@ public class JpaRepositoryToLockerRepositoryAdapter implements LockerRepository 
             lockerEntity.addLockerShelf(lockerShelfEntity);
         }
 
+        jpaLockerRepository.save(lockerEntity);
+
         return lockerEntity.getId();
     }
 
