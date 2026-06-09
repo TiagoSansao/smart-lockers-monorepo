@@ -3,6 +3,7 @@ package com.smartlockers.deliveryManager.service;
 import com.smartlockers.deliveryManager.entity.Delivery;
 import com.smartlockers.deliveryManager.entity.DeliveryItemSize;
 import com.smartlockers.deliveryManager.exception.BusinessException;
+import com.smartlockers.deliveryManager.integration.LockerEmbeddedSystemClient;
 import com.smartlockers.deliveryManager.integration.LockerManagerClient;
 import com.smartlockers.deliveryManager.integration.LogManagerClient;
 import com.smartlockers.deliveryManager.persistence.DeliveryRepository;
@@ -22,9 +23,11 @@ public class DeliveryService {
 
     private final DeliveryRepository deliveryRepository;
 
-
     private final LogManagerClient logManagerClient;
+
     private final LockerManagerClient lockerManagerClient;
+
+    private final LockerEmbeddedSystemClient lockerEmbeddedSystemClient;
 
     public List<Delivery> list(@Nullable Long residentId, @Nullable Boolean retrieved) {
         return deliveryRepository.findByResidentIdAndRetrieved(residentId, retrieved);
@@ -42,6 +45,8 @@ public class DeliveryService {
 
         logManagerClient.registerLog("place_item", reservedLockerShelfId, null);
 
+        lockerEmbeddedSystemClient.openLockerShelf(reservedLockerShelfId);
+
         return delivery.getId();
     }
 
@@ -54,5 +59,7 @@ public class DeliveryService {
         logManagerClient.registerLog("retrieve_item", delivery.getLockerShelfId(), delivery.getResidentId());
 
         lockerManagerClient.unlockLockerShelf(delivery.getLockerShelfId());
+
+        lockerEmbeddedSystemClient.openLockerShelf(delivery.getLockerShelfId());
     }
 }
